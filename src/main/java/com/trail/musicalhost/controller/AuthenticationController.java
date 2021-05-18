@@ -31,6 +31,7 @@ public class AuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequest) throws Exception{
         try
         {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
             );
@@ -40,6 +41,7 @@ public class AuthenticationController {
         {
             throw new Exception("Incorrect Username or Password");
         }
+
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
         final String jwtToken = jwtUtil.generateToken(userDetails);
@@ -66,6 +68,7 @@ public class AuthenticationController {
         userProfile.setPassword(newUser.getPassword());
 
         user.setProfile(userProfile);
+
 
         userService.save(user);
         return new ResponseEntity<>("User Created",HttpStatus.CREATED);

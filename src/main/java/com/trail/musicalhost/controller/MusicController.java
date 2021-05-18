@@ -28,6 +28,7 @@ public class MusicController {
     @RequestMapping("/getpostbyid/{id}")
     public Music getPost(@PathVariable Integer id)
     {
+
         return this.musicService.getMusic(id);
     }
 
@@ -36,6 +37,7 @@ public class MusicController {
     @RequestMapping(method = RequestMethod.POST, value = "/post/create")
     public String addPost(@RequestBody Music music)
     {
+
         User user = userService.getCurrentLoggedINUser();
         music.setUser(user);
         this.musicService.addMusic(music);
@@ -48,6 +50,7 @@ public class MusicController {
     @DeleteMapping("/post/delete/{id}")
     public String deletePost(@PathVariable Integer id)
     {
+
         this.musicService.deleteMusic(id);
         String response = "{\"success\" : true, \"message\" : \"Post Deleted Successfully\"}";
         return response;
@@ -56,6 +59,7 @@ public class MusicController {
     //Method to update a post by id
     //Url- localhost:8080/post/id
     @RequestMapping(method = RequestMethod.PUT, value = "/post/update/{id}")
+
     public String updatePost(@PathVariable Integer id, @RequestBody Music music)
     {
 
