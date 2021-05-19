@@ -2,12 +2,15 @@ package com.trail.musicalhost.model;
 
 import java.io.Serializable;
 
+
 public class SignupRequest implements Serializable {
     private String userName;
     private String password;
-    private String firstName;
+
     private String lastName;
     private String email;
+
+    private String firstname;
 
     private String mobile;
 
@@ -31,13 +34,7 @@ public class SignupRequest implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
     public String getLastName() {
         return lastName;
@@ -65,4 +62,11 @@ public class SignupRequest implements Serializable {
     }
 
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 }

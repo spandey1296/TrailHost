@@ -32,6 +32,12 @@ public class MusicController {
         return this.musicService.getMusic(id);
     }
 
+    @RequestMapping("/getPostByUserId")
+    public List<Music> getPostByUserId(){
+        User user = userService.getCurrentLoggedINUser();
+        return  this.musicService.getPostByUserID(user.getId());
+    }
+
     //Method to add a post
     // Url - localhost:8080/posts
     @RequestMapping(method = RequestMethod.POST, value = "/post/create")

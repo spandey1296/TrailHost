@@ -26,6 +26,10 @@ public class MusicService {
         }
     }
 
+    public List<Music> getPostByUserID(Integer id){
+        return this.musicRepository.findAllMusicByUserId(id);
+    }
+
     public void deleteMusic(Integer id){
         this.musicRepository.deleteById(id);
     }
