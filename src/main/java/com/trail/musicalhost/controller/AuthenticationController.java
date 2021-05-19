@@ -29,21 +29,29 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequest) throws Exception{
-        try{
+        try
+        {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
             );
 
-        }catch (BadCredentialsException e){
+        }
+        catch (BadCredentialsException e)
+        {
             throw new Exception("Incorrect Username or Password");
         }
+
+
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
         final String jwtToken = jwtUtil.generateToken(userDetails);
         return ResponseEntity.ok(new LoginResponse(jwtToken));
     }
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignupRequest newUser){
-        if(userService.isExistingUser(newUser.getUserName())){
+    public ResponseEntity<?> signUp(@RequestBody SignupRequest newUser)
+    {
+        if(userService.isExistingUser(newUser.getUserName()))
+        {
             return new ResponseEntity<>("User Already Exist", HttpStatus.CONFLICT);
         }
         User user = new User();
@@ -58,9 +66,6 @@ public class AuthenticationController {
         userProfile.setEmail(newUser.getEmail());
         userProfile.setMobile(newUser.getMobile());
         userProfile.setPassword(newUser.getPassword());
-
-
-
 
         user.setProfile(userProfile);
 

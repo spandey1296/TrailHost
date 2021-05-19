@@ -17,7 +17,8 @@ public class MusicController {
     UserService userService;
 
     @RequestMapping("/post")
-    public List<Music> getAllPost(){
+    public List<Music> getAllPost()
+    {
         return this.musicService.getAllMusic();
     }
 
@@ -25,14 +26,18 @@ public class MusicController {
     // Url - localhost:8080/posts/id(some value ex- 1)
     // return the post of that id
     @RequestMapping("/getpostbyid/{id}")
-    public Music getPost(@PathVariable Integer id){
+    public Music getPost(@PathVariable Integer id)
+    {
+
         return this.musicService.getMusic(id);
     }
 
     //Method to add a post
     // Url - localhost:8080/posts
     @RequestMapping(method = RequestMethod.POST, value = "/post/create")
-    public String addPost(@RequestBody Music music){
+    public String addPost(@RequestBody Music music)
+    {
+
         User user = userService.getCurrentLoggedINUser();
         music.setUser(user);
         this.musicService.addMusic(music);
@@ -43,7 +48,9 @@ public class MusicController {
     //Method to delete a post by id
     //Url - localhost:8080/posts/id(some value ex-1)
     @DeleteMapping("/post/delete/{id}")
-    public String deletePost(@PathVariable Integer id){
+    public String deletePost(@PathVariable Integer id)
+    {
+
         this.musicService.deleteMusic(id);
         String response = "{\"success\" : true, \"message\" : \"Post Deleted Successfully\"}";
         return response;
@@ -52,7 +59,9 @@ public class MusicController {
     //Method to update a post by id
     //Url- localhost:8080/post/id
     @RequestMapping(method = RequestMethod.PUT, value = "/post/update/{id}")
-    public String updatePost(@PathVariable Integer id, @RequestBody Music music){
+
+    public String updatePost(@PathVariable Integer id, @RequestBody Music music)
+    {
 
         String response ="";
         if(this.musicService.updateMusic(id,music)) {

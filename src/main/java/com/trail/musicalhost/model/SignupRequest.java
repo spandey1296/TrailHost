@@ -8,7 +8,9 @@ public class SignupRequest implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-    private String Mobile;
+
+    private String mobile;
+
 
     //Getters and setters
 
@@ -41,6 +43,15 @@ public class SignupRequest implements Serializable {
         return lastName;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -53,11 +64,5 @@ public class SignupRequest implements Serializable {
         this.email = email;
     }
 
-    public String getMobile() {
-        return Mobile;
-    }
 
-    public void setMobile(String mobile) {
-        Mobile = mobile;
-    }
 }
