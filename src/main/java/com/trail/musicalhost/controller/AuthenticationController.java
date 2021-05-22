@@ -65,6 +65,8 @@ public class AuthenticationController {
         userProfile.setLastName(newUser.getLastName());
         userProfile.setEmail(newUser.getEmail());
         userProfile.setMobile(newUser.getMobile());
+
+        System.out.println(newUser.getMobile());
         userProfile.setPassword(newUser.getPassword());
 
 
