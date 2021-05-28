@@ -14,8 +14,8 @@ public class UserProfile {
     private String firstName;
     private String lastName;
     private String email;
-    private String Mobile;
     private String password;
+    private String mobile;
 
     //Getters and Setters
 
@@ -52,14 +52,6 @@ public class UserProfile {
         this.email = email;
     }
 
-    public String getMobile() {
-        return Mobile;
-    }
-
-    public void setMobile(String mobile) {
-        Mobile = mobile;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -68,15 +60,11 @@ public class UserProfile {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "UserProfile{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", Mobile='" + Mobile + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

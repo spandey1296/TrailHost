@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class  UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -21,7 +21,6 @@ public class UserService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
-            System.out.println("principal instanceof UserDetails");
             username = ((UserDetails)principal).getUsername();
         } else {
             System.out.println("principal is not instanceof UserDetails");

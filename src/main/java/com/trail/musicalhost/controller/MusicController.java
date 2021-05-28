@@ -1,13 +1,21 @@
 package com.trail.musicalhost.controller;
 
 import com.trail.musicalhost.model.Music;
+import com.trail.musicalhost.model.ResponseFile;
 import com.trail.musicalhost.model.User;
 import com.trail.musicalhost.service.MusicService;
 import com.trail.musicalhost.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.service.ResponseMessage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class MusicController {
@@ -21,34 +29,80 @@ public class MusicController {
     {
         return this.musicService.getAllMusic();
     }
-
-    // Method to get post by id
-    // Url - localhost:8080/posts/id(some value ex- 1)
-    // return the post of that id
+    ///////////////////////////////////////////////////////////////////////////////////////
+//get data by music id
     @RequestMapping("/getpostbyid/{id}")
-    public Music getPost(@PathVariable Integer id)
+    public Music getPost(@PathVariable String id)
     {
-
         return this.musicService.getMusic(id);
+    }
+
+    @GetMapping("/files")
+    public ResponseEntity<List<ResponseFile>> getListFiles() {
+        List<ResponseFile> files = musicService.getAllFiles().map(dbFile -> {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/files/")
+                    .path(dbFile.getMusicId())
+                    .toUriString();
+
+            return new ResponseFile(
+                    dbFile.getName(),
+                    fileDownloadUri,
+                    dbFile.getDescription(),
+                    dbFile.getData().length);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+    }
+
+
+
+    @RequestMapping("/getPostByUserId")
+    public List<Music> getPostByUserId(){
+        User user = userService.getCurrentLoggedINUser();
+        return  this.musicService.getPostByUserID(user.getId());
     }
 
     //Method to add a post
     // Url - localhost:8080/posts
-    @RequestMapping(method = RequestMethod.POST, value = "/post/create")
-    public String addPost(@RequestBody Music music)
-    {
-
-        User user = userService.getCurrentLoggedINUser();
-        music.setUser(user);
-        this.musicService.addMusic(music);
-        String response = "{\"success\" : true, \"message\" : \"Post added Successfully\"}";
-        return response;
+    @PostMapping("/upload")
+    public void uploadFile(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            musicService.store(file);
+            System.out.println("Uploaded the file successfully: " + file.getOriginalFilename());
+        }
+        catch (Exception e) {
+           System.out.println("Not done");
+        }
     }
+    @GetMapping("/files/{id}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String  id) {
+
+
+System.out.println("a");
+        Music fileDB = musicService.getFile(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+                .body(fileDB.getData());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/post/create")
+//    public String addPost(@RequestBody Music music)
+//    {
+//
+//        User user = userService.getCurrentLoggedINUser();
+//        music.setUser(user);
+//        this.musicService.addMusic(music);
+//        String response = "{\"success\" : true, \"message\" : \"Post added Successfully\"}";
+//        return response;
+//    }
 
     //Method to delete a post by id
     //Url - localhost:8080/posts/id(some value ex-1)
     @DeleteMapping("/post/delete/{id}")
-    public String deletePost(@PathVariable Integer id)
+    public String deletePost(@PathVariable String id)
     {
 
         this.musicService.deleteMusic(id);
@@ -60,17 +114,23 @@ public class MusicController {
     //Url- localhost:8080/post/id
     @RequestMapping(method = RequestMethod.PUT, value = "/post/update/{id}")
 
-    public String updatePost(@PathVariable Integer id, @RequestBody Music music)
+    public String updatePost(@PathVariable String id, @RequestParam("file") MultipartFile file)
     {
-
+System.out.println("a");
         String response ="";
-        if(this.musicService.updateMusic(id,music)) {
-            response = "{\"success\" : true, \"message\" : \"Post updated Successfully\"}";
-        }
-        else{
-            response = "{\"success\" : true, \"message\" : \"Post Cannot be updated\"}";
-        }
+        try {
+            if (this.musicService.updateMusic(id, file)) {
+                response = "{\"success\" : true, \"message\" : \"Post updated Successfully\"}";
+            } else {
+                response = "{\"success\" : true, \"message\" : \"Post Cannot be updated\"}";
+            }
 
+        }
+        catch(Exception e)
+        {
+            System.out.println("error ");
+        }
         return response;
+
     }
 }
