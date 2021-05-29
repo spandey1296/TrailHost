@@ -12,7 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class AuthenticationController {
     @Autowired
@@ -65,8 +65,6 @@ public class AuthenticationController {
         userProfile.setLastName(newUser.getLastName());
         userProfile.setEmail(newUser.getEmail());
         userProfile.setMobile(newUser.getMobile());
-
-        System.out.println(newUser.getMobile());
         userProfile.setPassword(newUser.getPassword());
 
 
