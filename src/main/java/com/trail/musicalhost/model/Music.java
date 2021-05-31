@@ -12,6 +12,29 @@ public class Music {
     private String musicId;
     private String name;
     private String description;
+    private String type;
+    private String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
     @Lob
     private byte[] data;
     public String getMusicId() {
@@ -27,9 +50,9 @@ public class Music {
     public Music(){
         super();
     }
-    public Music(  String name, String description,byte[] data) {
+    public Music(  String name, String type,byte[] data) {
         this.name = name;
-        this.description = description;
+        this.type = type;
         this.data=data;
     }
     @Override
