@@ -1,12 +1,15 @@
 package com.trail.musicalhost.controller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trail.musicalhost.model.Music;
 import com.trail.musicalhost.model.ResponseFile;
 import com.trail.musicalhost.model.User;
+import com.trail.musicalhost.model.detail;
 import com.trail.musicalhost.service.MusicService;
 import com.trail.musicalhost.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,11 +68,13 @@ public class MusicController {
     }
 
     //----------------------upload data
-    @PostMapping("/upload")
-    public void uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadFile(@RequestPart(value = "file",required=true) MultipartFile file,@RequestPart(value = "details",required=true) String details)
+                          {
         String message = "";
         try {
-            musicService.store(file);
+            detail data = new ObjectMapper().readValue(details,detail.class);
+            musicService.store(file,data);
             System.out.println("Uploaded the file successfully: " + file.getOriginalFilename());
         }
         catch (Exception e) {
