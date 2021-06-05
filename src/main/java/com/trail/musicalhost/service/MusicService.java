@@ -1,6 +1,7 @@
 package com.trail.musicalhost.service;
 import com.trail.musicalhost.model.Music;
 import com.trail.musicalhost.model.User;
+import com.trail.musicalhost.model.detail;
 import com.trail.musicalhost.repository.MusicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,14 @@ public class MusicService {
     @Autowired
     UserService userService;
     //--------------------store data
-    public Music store(MultipartFile file) throws IOException
+    public Music store(MultipartFile file, detail details) throws IOException
     {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Music FileDB = new Music(fileName, file.getContentType(), file.getBytes());
         User user = userService.getCurrentLoggedINUser();
         FileDB.setUser(user);
+        FileDB.setDescription(details.getDescription());
+        FileDB.setTag(details.getName());
         System.out.println(user.getId());
 
         return musicRepository.save(FileDB);
