@@ -12,7 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin
 @RestController
 
 
