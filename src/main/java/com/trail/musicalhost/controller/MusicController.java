@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
-@CrossOrigin
+@CrossOrigin(origins="https://musichostfrontend.herokuapp.com")
 @RestController
 public class MusicController {
     @Autowired
